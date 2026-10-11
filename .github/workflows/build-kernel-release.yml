@@ -853,14 +853,16 @@ jobs:
       - name: 🏷️ Generate and Create New Tag
         run: |
           # Only search for tags starting with this SUSFS version
+          PIN=$(grep -o '"hash":"[0-9a-f]\{40\}"' .github/workflows/build-kernel-release.yml | head -1 | cut -d'"' -f4)
+          SHORT=${PIN:0:7}
           LATEST_MATCHING_TAG=$(gh api repos/$REPO_OWNER/$REPO_NAME/tags \
-            --jq "[.[] | select(.name | startswith(\"${SUSFS_BASE_VERSION}-r\"))] \
+            --jq "[.[] | select(.name | startswith(\"BakaSU-${SHORT}-SUSFS-${SUSFS_BASE_VERSION}-r\"))] \
                   | sort_by(.name | split(\"-r\")[1] | tonumber) \
                   | last | .name // empty")
           
           if [ -z "$LATEST_MATCHING_TAG" ]; then
             # No existing release for this version SUSFS → first release
-            NEW_TAG="${SUSFS_BASE_VERSION}-r1"
+            NEW_TAG="BakaSU-${SHORT}-SUSFS-${SUSFS_BASE_VERSION}-r1"
           else
             # Only increment the -r* suffix of the latest release for this version
             NEW_TAG=$(echo "$LATEST_MATCHING_TAG" | awk -F'-r' '{printf "%s-r%d", $1, $2+1}')
