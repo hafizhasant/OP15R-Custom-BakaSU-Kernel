@@ -11,10 +11,7 @@ Custom kernel for the **OnePlus 15R (CPH2767, codename macan)** on Android 16, b
 - **Tweaks (each applied only if its patch fits the tree):** Boeffla wakelock blocker (empty blocklist), Sultan power/memory patches (optional)
 - **Disabled:** Droidspaces, Baseband Guard, NTSync
 
-Tested on CPH2767 firmware 16.0.10.600 only. Keep a boot image backup before flashing.
-
-## Build
-Actions → Build and Release OnePlus Kernels → Run workflow on `main`: kernel `android16-6.12`. The root json is pre-filled with the pinned BakaSU commit. Leave the SusFS fields empty.
+Built for custom ROMs, first target AxionOS on the OnePlus 15R. The ROM ships its own 6.12.38 kernel and modules from OOS 16.0.5.701, so builds here use the matching 6.12.38 source with BakaSU and SUSFS added on top. Not tested on a device yet. Keep a boot image backup before flashing.
 
 ## Flash
 Flash the AnyKernel3 zip with Kernel Flasher and reboot. Check with `uname -r` and `ksu_susfs show version`.
